@@ -35,39 +35,6 @@ char *progname;
 #define MAXLINE 512
 
 
-void handle_timeout( int signum ){
-    printf("timeout!\n");
-}
-
-/*
- * This function handles the timeout by incrementing
- * the corresponding global variables.
- *
- * Input:  signal number.
- * Return: None.
- *
- */
-int register_handler( ){
-    int rt_value = 0;
-    /* register the handler function. */
-    rt_value = ( int ) signal( SIGALRM, handle_timeout );
-    if( rt_value == ( int ) SIG_ERR ){
-        printf("can't register function handle_timeout.\n" );
-        printf("signal() error: %s.\n", strerror(errno) );
-        return -1;
-    }
-    /* disable the restart of system call on signal. otherwise the OS will stuck in
-     * the system call
-     */
-    rt_value = siginterrupt( SIGALRM, 1 );
-    if( rt_value == -1 ){
-        printf( "invalid sig number.\n" );
-        return -1;
-    }
-    return 0;
-}
-
-
 /* The dg_cli function reads lines from the terminal, sends them   */
 /* to the echo server pointed to by pserv_addr, and prints to the  */
 /* terminal the echoed data. The local endpoint is sockfd. The     */
@@ -76,7 +43,7 @@ int register_handler( ){
 /* in servlen, so that the function works with other protocol      */
 /* families that have different address sizes.                     */
 
-int dg_cli(int sockfd, struct sockaddr *pserv_addr, int servlen)
+void dg_cli(int sockfd, struct sockaddr *pserv_addr, int servlen)
 {
 
 /* Various counter and buffer variables. The extra byte in the     */
@@ -113,22 +80,15 @@ int dg_cli(int sockfd, struct sockaddr *pserv_addr, int servlen)
 /* are returned, but we do not need them, so we use null pointers. */
 /* The return value is the number of bytes received.               */
 
-        printf("setting a timeout alarm\n");
-        alarm(3);
         printf("Waiting to receice data from server\n");
 
         n = recvfrom(sockfd, recvline, MAXLINE, 0, NULL, NULL);
         if (n < 0)
         {
             printf("%s: recvfrom error\n",progname);
-            if( errno == EINTR ){
-                printf("timeout triggered!\n");
-            } else {
-                exit(4);
-            }
+            exit(4);
         } else {
-            printf("Received data from server. Clear timeout alarm\n");
-            alarm(0);
+            printf("Received data from server: ");
 
 
 /* The exchanged data is not null terminated, as the string length */
@@ -210,11 +170,6 @@ int main(int argc, char *argv[])
 /* set up, so that communication can start from the client.        */
     printf("Bind socket complete\n");
 
-    printf("register timeout handler\n");
-    if(register_handler()!=0)
-    {
-        printf("failed to register timeout\n");
-    }
     printf("Type a message to send to server...\n");
     dg_cli(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 

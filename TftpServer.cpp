@@ -38,7 +38,8 @@ int dg_echo(int sockfd)
 
 /* Temporary variables, counters and buffers.                      */
 
-    int    n, clilen;
+    int    n;
+    socklen_t cliLen;
     char   mesg[MAXMESG];
 
 /* Main echo server loop. Note that it never terminates, as there  */
@@ -49,13 +50,13 @@ int dg_echo(int sockfd)
 /* Initialize the maximum size of the structure holding the        */
 /* client's address.                                               */
 
-        clilen = sizeof(struct sockaddr);
+        cliLen = sizeof(struct sockaddr);
 
 /* Receive data on socket sockfd, up to a maximum of MAXMESG       */
 /* bytes, and store them in mesg. The sender's address is stored   */
 /* in pcli_addr and the structure's size is stored in clilen.      */
         printf("Waiting to receive data\n");
-        n = recvfrom(sockfd, mesg, MAXMESG, 0, &pcli_addr, &clilen);
+        n = recvfrom(sockfd, mesg, MAXMESG, 0, &pcli_addr, &cliLen);
 
 /* n holds now the number of received bytes, or a negative number  */
 /* to show an error condition. Notice how we use progname to label */
@@ -79,14 +80,13 @@ int dg_echo(int sockfd)
 /* size clilen). 0 is an unused flag byte. This call returns the   */
 /* number of bytes sent, which differs from what we wanted in case */
 /* of an error. Again, the return value may signify an interrupt.  */
-        printf("sending back data to client\n");
-        if (sendto(sockfd, mesg, n, 0, &pcli_addr, clilen) != n)
+        printf("echo back to client\n");
+        if (sendto(sockfd, mesg, n, 0, &pcli_addr, cliLen) != n)
         {
             printf("%s: sendto error\n",progname);
             exit(4);
         }
     }
-    return 0;
 }
 
 /* Main driver program. Initializes server's socket and calls the  */
@@ -164,7 +164,6 @@ int main(int argc, char *argv[])
 /* We can now start the echo server's main loop. We only pass the  */
 /* local socket to dg_echo, as the client's data are included in   */
 /* all received datagrams.                                         */
-    printf("Listening for new data\n");
     dg_echo(sockfd);
 
 /* The echo function in this example never terminates, so this     */

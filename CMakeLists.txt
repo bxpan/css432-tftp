@@ -3,6 +3,5 @@ project(css432_tftp)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(css432_tftp main.cpp)
-add_executable(TftpClient TftpClient.cpp)
-add_executable(TftpServer TftpServer.cpp)
+add_executable(tftp-client TftpClient.cpp)
+add_executable(tftp-server TftpServer.cpp)
