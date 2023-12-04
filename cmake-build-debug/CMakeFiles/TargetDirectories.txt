@@ -1,3 +1,5 @@
 /Users/pbx/CLionProjects/css432-tftp/cmake-build-debug/CMakeFiles/css432_tftp.dir
+/Users/pbx/CLionProjects/css432-tftp/cmake-build-debug/CMakeFiles/TftpClient.dir
+/Users/pbx/CLionProjects/css432-tftp/cmake-build-debug/CMakeFiles/TftpServer.dir
 /Users/pbx/CLionProjects/css432-tftp/cmake-build-debug/CMakeFiles/edit_cache.dir
 /Users/pbx/CLionProjects/css432-tftp/cmake-build-debug/CMakeFiles/rebuild_cache.dir
