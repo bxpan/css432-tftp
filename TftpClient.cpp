@@ -2,10 +2,7 @@
 // Created by B Pan on 12/3/23.
 //
 
-//Sample program at client side for echo transmit-receive - CSS 432 - Winter 2024
-
-
-
+//Sample echo client program - CSS 432 - Winter 2024
 
 #include <stdio.h>
 #include <sys/types.h>

@@ -2,7 +2,7 @@
 // Created by B Pan on 12/3/23.
 //
 //for system calls, please refer to the MAN pages help in Linux
-//sample echo tensmit receive program over udp - CSS432 - Autumn 2022
+//sample echo server program over udp - CSS432 - winter 2024
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/socket.h>
