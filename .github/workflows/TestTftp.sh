@@ -40,5 +40,4 @@ then
   exit 1
 else
   echo "test passed"
-  exit 2
 fi
