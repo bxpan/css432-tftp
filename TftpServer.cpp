@@ -17,7 +17,6 @@
 
 #define SERV_UDP_PORT 61125 // REPLACE WITH YOUR PORT NUMBER
 
-
 char *progname;
 
 /* Size of maximum message to receive.                            */
